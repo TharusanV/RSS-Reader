@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Button, Text, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
 
 const GetFeed = () => {
   const [feed, setFeed] = useState([]);
@@ -34,7 +34,14 @@ const GetFeed = () => {
         <ScrollView style={styles.feed}>
           {feed.map((item, index) => (
             <View key={index} style={styles.feedItem}>
-              <Image></Image>
+              {/*If the thumbnail exists then do the follow*/}
+              {item.thumbnail && (
+                <Image
+                  source={{ uri: item.thumbnail }}
+                  style={styles.thumbnail}
+                />
+              )}
+
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.description}>{item.description}</Text>
             </View>
@@ -49,10 +56,12 @@ export default GetFeed;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
+    flexWrap: 'wrap',
+    marginTop: 8,
+    marginLeft: 8,
+    marginRight: 8,
     justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
   },
   feed: {
     marginTop: 20,
@@ -63,6 +72,12 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+  },
+  thumbnail: {
+    width: '20%',
+    height: 100,
+    resizeMode: 'cover',
+    marginBottom: 10,
   },
   title: {
     fontSize: 18,
