@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "RSS",
+    "slug": "rss",
+    "scheme": "rss-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,6 +23,7 @@
       }
     },
     "web": {
+      "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
