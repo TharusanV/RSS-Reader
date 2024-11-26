@@ -56,25 +56,28 @@ export default GetFeed;
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexWrap: 'wrap',
     marginTop: 8,
     marginLeft: 8,
     marginRight: 8,
-    justifyContent: 'center',
   },
   feed: {
-    marginTop: 20,
-    width: '100%',
+    marginTop: 10,
+  },
+  feedContent: {
+   
   },
   feedItem: {
-    marginBottom: 20,
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    width: 200, // Fixed width for each feed item
+    margin: 8,  // Add margin around each item
+    backgroundColor: '#f9f9f9', 
+    elevation: 2, // Shadow for Android
+    shadowColor: '#000', // Shadow for iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   thumbnail: {
-    width: '20%',
+    width: '100%',
     height: 100,
     resizeMode: 'cover',
     marginBottom: 10,
@@ -82,10 +85,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginHorizontal: 8, // Add horizontal padding inside feed item
+    marginBottom: 4,
   },
   description: {
     fontSize: 14,
     color: '#555',
+    marginHorizontal: 8, // Add horizontal padding inside feed item
+    marginBottom: 8,
   },
   error: {
     marginTop: 20,

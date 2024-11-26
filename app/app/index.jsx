@@ -7,7 +7,7 @@ export default function App() {
     <View style={styles.container}>
       <Text>App!</Text>
       <StatusBar style="auto" />
-      <Link href="/getFeed" style={{color: 'blue'}}>Single Article</Link>
+      <Link href="/Home" style={{color: 'blue'}}>Home</Link>
     </View>
   );
 }
