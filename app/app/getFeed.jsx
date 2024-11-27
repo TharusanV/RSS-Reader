@@ -39,11 +39,12 @@ const GetFeed = () => {
                 <Image
                   source={{ uri: item.thumbnail }}
                   style={styles.thumbnail}
+                  resizeMode="contain"
                 />
               )}
 
               <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.description}>{item.description}</Text>
+              {/*<Text style={styles.description}>{item.description}</Text>*/}
             </View>
           ))}
         </ScrollView>
@@ -62,12 +63,13 @@ const styles = StyleSheet.create({
   },
   feed: {
     marginTop: 10,
+    alignSelf: 'center',
   },
   feedContent: {
    
   },
   feedItem: {
-    width: 200, // Fixed width for each feed item
+    width: "90%", // Fixed width for each feed item
     margin: 8,  // Add margin around each item
     backgroundColor: '#f9f9f9', 
     elevation: 2, // Shadow for Android
@@ -77,10 +79,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   thumbnail: {
-    width: '100%',
-    height: 100,
-    resizeMode: 'cover',
-    marginBottom: 10,
+    width: 300,
+    height: 200, 
   },
   title: {
     fontSize: 18,

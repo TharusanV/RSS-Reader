@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import GetFeed from '../getFeed'
 
 const Home = () => {
   return (
-    <View>
-      <Text>Home</Text>
+    <View >
+      <GetFeed />
     </View>
   )
 }
