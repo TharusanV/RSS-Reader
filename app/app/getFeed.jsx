@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Button, Text, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const GetFeed = () => {
   const [feed, setFeed] = useState([]);
@@ -14,7 +15,7 @@ const GetFeed = () => {
 
       if (json.status === 'ok') {
         setFeed(json.items); // Save the parsed feed items to state
-        console.log(json.items); // Contains parsed feed items
+        //console.log(json.items); // Contains parsed feed items
         setError('');
       } else {
         throw new Error('Failed to fetch feed');
@@ -26,38 +27,46 @@ const GetFeed = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Button title="Fetch RSS Feed" onPress={fetchRSSFeed} />
-      {error ? (
-        <Text style={styles.error}>{error}</Text>
-      ) : (
-        <ScrollView style={styles.feed}>
-          {feed.map((item, index) => (
-            <View key={index} style={styles.feedItem}>
-              {/*If the thumbnail exists then do the follow*/}
-              {item.thumbnail && (
-                <Image
-                  source={{ uri: item.thumbnail }}
-                  style={styles.thumbnail}
-                  resizeMode="contain"
-                />
-              )}
+  <SafeAreaView style={{ backgroundColor: '#3498db', flex: 1}}>
+      <ScrollView contentContainerStyle={{ height: '100%' }}>
+        <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', flex: 1, paddingHorizontal: 16 }}>
+          
+          <Button 
+            title="Fetch RSS Feed" 
+            onPress={fetchRSSFeed} 
+          />
 
-              <Text style={styles.title}>{item.title}</Text>
-              {/*<Text style={styles.description}>{item.description}</Text>*/}
-            </View>
-          ))}
-        </ScrollView>
-      )}
-    </View>
+          {error ? (
+            <Text style={{ marginTop: 20, color: 'red' }}>
+              {error}
+            </Text>
+          ) : (
+            <ScrollView contentContainerStyle={{ height: '100%'}}>
+              {feed.map((item, index) => (
+                <View key={index}>
+                  {item.thumbnail && (
+                    <Image
+                      source={{ uri: item.thumbnail }}
+                      style={{ width: 240, height: 130 }}
+                      resizeMode="contain"
+                    />
+                  )}
+                </View>
+              ))}
+            </ScrollView>
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+
   );
 };
 
 export default GetFeed;
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 8,
+  container: {  
+    marginTop: "10%",
     marginLeft: 8,
     marginRight: 8,
   },
@@ -65,22 +74,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'center',
   },
-  feedContent: {
-   
-  },
   feedItem: {
-    width: "90%", // Fixed width for each feed item
-    margin: 8,  // Add margin around each item
-    backgroundColor: '#f9f9f9', 
-    elevation: 2, // Shadow for Android
-    shadowColor: '#000', // Shadow for iOS
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    flex: 1,
+    justifyContent: 'center',
+    marginBottom: 20,
   },
   thumbnail: {
-    width: 300,
-    height: 200, 
+    width: '90%', // Ensures the image takes 80% of the container's width
+    height: undefined, // Let the aspect ratio determine the height
+    aspectRatio: 16 / 9, // Adjust aspect ratio to your expected image shape, or remove this if dynamic
+    resizeMode: 'contain', // Keeps the image quality and aspect ratio
   },
   title: {
     fontSize: 18,
