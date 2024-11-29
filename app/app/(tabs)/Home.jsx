@@ -4,9 +4,9 @@ import GetFeed from '../getFeed'
 
 const Home = () => {
   return (
-    <View >
+    <>
       <GetFeed />
-    </View>
+    </>
   )
 }
 

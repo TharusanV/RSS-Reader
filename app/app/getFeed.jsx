@@ -27,9 +27,9 @@ const GetFeed = () => {
   };
 
   return (
-  <SafeAreaView style={{ backgroundColor: '#3498db', flex: 1}}>
-      <ScrollView contentContainerStyle={{ height: '100%' }}>
-        <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', flex: 1, paddingHorizontal: 16 }}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ width: '90%', marginTop: '10%' }}>
           
           <Button 
             title="Fetch RSS Feed" 
@@ -37,26 +37,59 @@ const GetFeed = () => {
           />
 
           {error ? (
-            <Text style={{ marginTop: 20, color: 'red' }}>
+            <Text style={{ marginBottom: 20, color: 'red', textAlign: 'center' }}>
               {error}
             </Text>
           ) : (
-            <ScrollView contentContainerStyle={{ height: '100%'}}>
+            <ScrollView 
+              showsVerticalScrollIndicator={false} 
+              contentContainerStyle={{ 
+                marginTop: 30, 
+                paddingRight: 10, 
+                paddingBottom: 50, 
+                alignItems: "center"
+              }}
+            >
               {feed.map((item, index) => (
-                <View key={index}>
+                <View 
+                  key={index} 
+                  style={{
+                    width: 240, 
+                    marginBottom: 20, 
+                    alignItems: 'flex-start' // Align child elements to the left
+                  }}
+                >
                   {item.thumbnail && (
                     <Image
                       source={{ uri: item.thumbnail }}
-                      style={{ width: 240, height: 130 }}
+                      style={{ width: '100%', height: 130 }}
                       resizeMode="contain"
                     />
                   )}
+                  
+                  <Text style={{ 
+                    fontSize: 18, 
+                    fontWeight: 'bold', 
+                    textAlign: 'left', 
+                    marginTop: 10 
+                  }}>
+                    {item.title}
+                  </Text>
+
+                  <Text style={{ 
+                    fontSize: 14, 
+                    color: '#555', 
+                    textAlign: 'left', 
+                    marginTop: 5 
+                  }}>
+                    {item.description}
+                  </Text>
                 </View>
               ))}
             </ScrollView>
           )}
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
 
   );
@@ -64,41 +97,3 @@ const GetFeed = () => {
 
 export default GetFeed;
 
-const styles = StyleSheet.create({
-  container: {  
-    marginTop: "10%",
-    marginLeft: 8,
-    marginRight: 8,
-  },
-  feed: {
-    marginTop: 10,
-    alignSelf: 'center',
-  },
-  feedItem: {
-    flex: 1,
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  thumbnail: {
-    width: '90%', // Ensures the image takes 80% of the container's width
-    height: undefined, // Let the aspect ratio determine the height
-    aspectRatio: 16 / 9, // Adjust aspect ratio to your expected image shape, or remove this if dynamic
-    resizeMode: 'contain', // Keeps the image quality and aspect ratio
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginHorizontal: 8, // Add horizontal padding inside feed item
-    marginBottom: 4,
-  },
-  description: {
-    fontSize: 14,
-    color: '#555',
-    marginHorizontal: 8, // Add horizontal padding inside feed item
-    marginBottom: 8,
-  },
-  error: {
-    marginTop: 20,
-    color: 'red',
-  },
-});
