@@ -54,7 +54,7 @@ const GetFeed = () => {
                 <View 
                   key={index} 
                   style={{
-                    width: 240, 
+                    width: 240*1.4, 
                     marginBottom: 20, 
                     alignItems: 'flex-start' // Align child elements to the left
                   }}
@@ -62,7 +62,7 @@ const GetFeed = () => {
                   {item.thumbnail && (
                     <Image
                       source={{ uri: item.thumbnail }}
-                      style={{ width: '100%', height: 130 }}
+                      style={{ width: '100%', height: 130*1.4 }}
                       resizeMode="contain"
                     />
                   )}
@@ -71,7 +71,7 @@ const GetFeed = () => {
                     fontSize: 18, 
                     fontWeight: 'bold', 
                     textAlign: 'left', 
-                    marginTop: 10 
+                    marginTop: 5
                   }}>
                     {item.title}
                   </Text>
@@ -80,7 +80,7 @@ const GetFeed = () => {
                     fontSize: 14, 
                     color: '#555', 
                     textAlign: 'left', 
-                    marginTop: 5 
+                    marginTop: 3 
                   }}>
                     {item.description}
                   </Text>
