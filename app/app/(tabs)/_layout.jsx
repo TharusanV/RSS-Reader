@@ -11,11 +11,11 @@ const TabIcon = ({color, name, focused}) => {
   switch (name) {
     case 'BBC':
       return (
-        <View>
+        <View style={{marginTop: 12, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2}}>
           <BBCLogo 
             width={24} 
             height={24} 
-            style={{ marginTop: 24}}
+            style={{ }}
           />
           <Text
             numberOfLines={1}
@@ -32,11 +32,11 @@ const TabIcon = ({color, name, focused}) => {
       );
     case 'Sky News':
       return (
-        <View>
+        <View style={{marginTop: 12, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
           <SkyLogo 
             width={24} 
             height={24} 
-            style={{ marginTop: 24}}
+            style={{ }}
           />
           <Text
             numberOfLines={1}
@@ -53,12 +53,12 @@ const TabIcon = ({color, name, focused}) => {
       );
     default:
       return (
-        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+        <View style={{ marginTop: 12, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
           <Image
             source={icons.home}
             resizeMode="contain"
             tintColor={color}
-            style={{ width: 24, height: 24, marginTop: 24}}
+            style={{ width: 24, height: 24}}
           />
           <Text
             numberOfLines={1}
@@ -81,16 +81,14 @@ const TabsLayout = () => {
     <>
       <Tabs
         options={{ headerShown: false }}
+
         screenOptions={{
+          /*tabBarPosition: 'top',*/
+          /*tabBarScrollEnabled: true,*/
           tabBarActiveTintColor: "#FFA001",
           tabBarInactiveTintColor: "#CDCDE0",
           tabBarShowLabel: false,
-          tabBarStyle: {
-            backgroundColor: "#161622",
-            borderTopWidth: 1,
-            borderTopColor: "#232533",
-            height: 64,
-          },
+          tabBarStyle: { backgroundColor: "#161622",borderTopWidth: 1,borderTopColor: "#232533", zIndex: 10, },
         }}
       >
         <Tabs.Screen 
@@ -150,6 +148,8 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
+
+
 
       <StatusBar backgroundColor="#161622" style="light" />
     </>
