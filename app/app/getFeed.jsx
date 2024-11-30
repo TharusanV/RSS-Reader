@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { View, Button, Text, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const GetFeed = () => {
+const GetFeed = ({currentFeeds}) => {
+
+  const selectedFeed = currentFeeds.find(feed => feed.selected);
+
   const [feed, setFeed] = useState([]);
   const [error, setError] = useState('');
 
   const fetchRSSFeed = async () => {
-    const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/rss.xml'; // Replace with your RSS feed URL
+    const feedUrl = `https://api.rss2json.com/v1/api.json?rss_url=${selectedFeed.link}`; // Replace with your RSS feed URL
 
     try {
       const response = await fetch(feedUrl);
