@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { View, Button, Text, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Button, Text, StyleSheet, ScrollView, Image, Dimensions, Pressable, Linking} from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
+import Ionicons from "react-native-vector-icons/Ionicons"; 
 
 const GetFeed = ({currentFeeds}) => {
 
@@ -8,6 +9,19 @@ const GetFeed = ({currentFeeds}) => {
 
   const [feed, setFeed] = useState([]);
   const [error, setError] = useState('');
+
+  const openLink = async (url) => {
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        console.log(`Cannot open the URL: ${url}`);
+      }
+    } catch (error) {
+      console.error('Error opening URL:', error);
+    }
+  };
 
   const fetchRSSFeed = async () => {
     const feedUrl = `https://api.rss2json.com/v1/api.json?rss_url=${selectedFeed.link}`; // Replace with your RSS feed URL
@@ -29,15 +43,25 @@ const GetFeed = ({currentFeeds}) => {
     }
   };
 
-  return (
-      <View style={{ marginTop: '10%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={{ width: '90%'}}>
-          
-          <Button 
-            title="Fetch RSS Feed" 
-            onPress={fetchRSSFeed} 
-          />
+  useEffect(() => {
+    if (selectedFeed) {
+      fetchRSSFeed()
+    }
+  }, [selectedFeed]);
 
+  return (
+      <View style={{ marginTop: 20, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{width: "24", marginBottom: 4}}>
+            <Pressable onPress={fetchRSSFeed}>
+              <Ionicons
+                name="refresh-outline"
+                color="#161622"
+                size={24}
+              />
+            </Pressable>
+          </View>
+
+        <View style={{ width: '90%'}}>
           {error ? (
             <Text style={{ marginBottom: 20, color: 'red', textAlign: 'center' }}>
               {error}
@@ -46,15 +70,16 @@ const GetFeed = ({currentFeeds}) => {
             <ScrollView 
               showsVerticalScrollIndicator={false} 
               contentContainerStyle={{ 
-                marginTop: 30, 
+                marginTop: 20, 
                 paddingRight: 10, 
                 paddingBottom: 50, 
                 alignItems: "center"
               }}
             >
               {feed.map((item, index) => (
-                <View 
+                <Pressable 
                   key={index} 
+                  onPress={() => openLink(item.link)}
                   style={{
                     width: 240*1.4, 
                     marginBottom: 20, 
@@ -86,7 +111,7 @@ const GetFeed = ({currentFeeds}) => {
                   }}>
                     {item.description}
                   </Text>
-                </View>
+                </Pressable>
               ))}
             </ScrollView>
           )}

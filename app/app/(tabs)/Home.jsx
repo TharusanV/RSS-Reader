@@ -10,6 +10,7 @@ const Home = () => {
   const [feedOptions, setFeedOptions] = useState([
     { id: 1, name: "BBC News", selected: true, component: BBCLogo, link: "https://feeds.bbci.co.uk/news/rss.xml"},
     { id: 2, name: "Sky News", selected: false, component: SkyLogo, link: "https://feeds.skynews.com/feeds/rss/home.xml" },
+    { id: 3, name: "Sky News", selected: false, component: SkyLogo, link: "https://www.espn.com/espn/rss/news" },
   ]);
 
   const addOption = ({platformName}) => {
