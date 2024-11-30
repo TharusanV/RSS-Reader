@@ -27,8 +27,7 @@ const GetFeed = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, marginTop: '10%' }}>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ marginTop: '10%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View style={{ width: '90%'}}>
           
           <Button 
@@ -90,7 +89,7 @@ const GetFeed = () => {
           )}
         </View>
       </View>
-    </SafeAreaView>
+   
 
   );
 };

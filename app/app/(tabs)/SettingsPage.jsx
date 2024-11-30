@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const BBCPage = () => {
+const SettingsPage = () => {
   return (
     <View>
-      <Text>BBC</Text>
+      <Text>Settings</Text>
     </View>
   )
 }
 
-export default BBCPage
+export default SettingsPage

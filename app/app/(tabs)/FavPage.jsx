@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const OtherNewsPage = () => {
+const FavPage = () => {
   return (
     <View>
-      <Text>Sky Page</Text>
+      <Text>Fav</Text>
     </View>
   )
 }
 
-export default OtherNewsPage
+export default FavPage

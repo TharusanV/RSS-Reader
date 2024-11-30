@@ -1,80 +1,30 @@
 import { StatusBar } from "expo-status-bar";
 import { Redirect, Tabs } from "expo-router";
 import { Image, Text, View, StyleSheet } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons"; 
 
-import { icons } from "../../constants";
-import BBCLogo from "../../assets/icons/BBC_News_2019.svg"
-import SkyLogo from "../../assets/icons/Sky-news-logo.svg"
-
-
-const TabIcon = ({color, name, focused}) => {
-  switch (name) {
-    case 'BBC':
-      return (
-        <View style={{marginTop: 12, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2}}>
-          <BBCLogo 
-            width={24} 
-            height={24} 
-            style={{ }}
-          />
-          <Text
-            numberOfLines={1}
-            style={{
-              fontFamily: focused ? 'Poppins-SemiBold' : 'Poppins-Regular',
-              fontSize: 12,
-              color: color,
-              width: "100%",
-            }}
-          >
-            {name}
-          </Text>
-        </View>
-      );
-    case 'Sky News':
-      return (
-        <View style={{marginTop: 12, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-          <SkyLogo 
-            width={24} 
-            height={24} 
-            style={{ }}
-          />
-          <Text
-            numberOfLines={1}
-            style={{
-              fontFamily: focused ? 'Poppins-SemiBold' : 'Poppins-Regular',
-              fontSize: 12,
-              color: color,
-              width: "100%",
-            }}
-          >
-            {name}
-          </Text>
-        </View>
-      );
-    default:
-      return (
-        <View style={{ marginTop: 12, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-          <Image
-            source={icons.home}
-            resizeMode="contain"
-            tintColor={color}
-            style={{ width: 24, height: 24}}
-          />
-          <Text
-            numberOfLines={1}
-            style={{
-              fontFamily: focused ? 'Poppins-SemiBold' : 'Poppins-Regular',
-              fontSize: 12,
-              color: color,
-              width: "100%",
-            }}
-          >
-            {name}
-          </Text>
-        </View>
-      );
-  }
-};
+const TabIcon = ({icon, color, name, focused}) => {
+  return (
+    <View style={{ marginTop: 12, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+      <Ionicons
+        name={icon}
+        color={color}
+        size={24}
+      />
+      <Text
+        numberOfLines={1}
+        style={{
+          fontFamily: focused ? 'Poppins-SemiBold' : 'Poppins-Regular',
+          fontSize: 12,
+          color: color,
+          width: "100%",
+        }}
+      >
+        {name}
+      </Text>
+    </View>
+  );
+}
 
 const TabsLayout = () => {
   return (
@@ -98,6 +48,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
+                icon={"home-outline"}
                 color={color}
                 name="Home"
                 focused={focused}
@@ -106,42 +57,30 @@ const TabsLayout = () => {
           }}
         />
         <Tabs.Screen 
-          name="BBCPage"
+          name="FavPage"
           options={{
-            title: 'BBCPage',
+            title: 'FavPage',
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
+                icon={"bookmark-outline"}
                 color={color}
-                name="BBC"
+                name="Favourites"
                 focused={focused}
               />
             ),
           }}
         />
         <Tabs.Screen 
-          name="SkyNewsPage"
+          name="SettingsPage"
           options={{
-            title: 'SkyNewsPage',
+            title: 'SettingsPage',
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
+                icon={"settings-outline"}
                 color={color}
-                name="Sky News"
-                focused={focused}
-              />
-            ),
-          }}
-        />
-        <Tabs.Screen 
-          name="OtherNewsPage"
-          options={{
-            title: 'OtherNewsPage',
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                color={color}
-                name="Other"
+                name="Settings"
                 focused={focused}
               />
             ),
