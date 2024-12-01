@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, StyleSheet, ScrollView, Image, Dimensions, Pressable, Linking} from 'react-native';
+import { View, Button, Text, StyleSheet, ScrollView, Image, Dimensions, Pressable, Linking, TouchableOpacity, } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons"; 
 
@@ -22,6 +22,7 @@ const GetFeed = ({currentFeeds}) => {
       console.error('Error opening URL:', error);
     }
   };
+  
 
   const fetchRSSFeed = async () => {
     const feedUrl = `https://api.rss2json.com/v1/api.json?rss_url=${selectedFeed.link}`; // Replace with your RSS feed URL
@@ -77,15 +78,7 @@ const GetFeed = ({currentFeeds}) => {
               }}
             >
               {feed.map((item, index) => (
-                <Pressable 
-                  key={index} 
-                  onPress={() => openLink(item.link)}
-                  style={{
-                    width: 240*1.4, 
-                    marginBottom: 20, 
-                    alignItems: 'flex-start' // Align child elements to the left
-                  }}
-                >
+                <Pressable key={index} onPress={() => openLink(item.link)} style={{width: 240*1.4, marginBottom: 20, alignItems: 'flex-start'}}>
                   {item.thumbnail && (
                     <Image
                       source={{ uri: item.thumbnail }}
@@ -94,21 +87,15 @@ const GetFeed = ({currentFeeds}) => {
                     />
                   )}
                   
-                  <Text style={{ 
-                    fontSize: 18, 
-                    fontWeight: 'bold', 
-                    textAlign: 'left', 
-                    marginTop: 5
-                  }}>
+                  <TouchableOpacity style={{position: 'absolute',top: 5,right:18,}}>
+                    <Text style={{color: 'green',fontSize: 24,fontWeight: 'bold',}}>+</Text>
+                  </TouchableOpacity>
+
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'left', marginTop: 5}}>
                     {item.title}
                   </Text>
 
-                  <Text style={{ 
-                    fontSize: 14, 
-                    color: '#555', 
-                    textAlign: 'left', 
-                    marginTop: 3 
-                  }}>
+                  <Text style={{ fontSize: 14, color: '#555', textAlign: 'left', marginTop: 3 }}>
                     {item.description}
                   </Text>
                 </Pressable>

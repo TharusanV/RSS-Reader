@@ -1,7 +1,9 @@
-import { View, Text, ScrollView, Pressable } from 'react-native'
+import { View, Text, ScrollView, Pressable,} from 'react-native'
 import React, { useState } from 'react';
 import GetFeed from '../getFeed'
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { useFocusEffect } from '@react-navigation/native';
 
 import BBCLogo from "../../assets/icons/BBC_News_2019.svg"
 import SkyLogo from "../../assets/icons/Sky-news-logo.svg"
@@ -10,14 +12,22 @@ const Home = () => {
   const [feedOptions, setFeedOptions] = useState([
     { id: 1, name: "BBC News", selected: true, component: BBCLogo, link: "https://feeds.bbci.co.uk/news/rss.xml"},
     { id: 2, name: "Sky News", selected: false, component: SkyLogo, link: "https://feeds.skynews.com/feeds/rss/home.xml" },
-    { id: 3, name: "Sky News", selected: false, component: SkyLogo, link: "https://www.espn.com/espn/rss/news" },
   ]);
 
-  const addOption = ({platformName}) => {
-    const newOption = { id: feedOptions.length + 1, name: platformName, selected: false };
+  const addPlatformOption = ({platformName, feedLink}) => {
+    const newOption = { id: feedOptions.length + 1, name: platformName, selected: false, component: null, link: feedLink };
     setFeedOptions(prevOptions => [...prevOptions, newOption]);
   };
   
+  useFocusEffect(
+    React.useCallback(() => {
+      //console.log('Tab Screen is focused');
+
+      return () => {
+        //console.log('Tab Screen is unfocused');
+      };
+    }, [])
+  );
 
   return (
     <SafeAreaView style={{ flex: 1}}>
