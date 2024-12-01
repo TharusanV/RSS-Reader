@@ -8,20 +8,58 @@ import { useFocusEffect } from '@react-navigation/native';
 import BBCLogo from "../../assets/icons/BBC_News_2019.svg"
 import SkyLogo from "../../assets/icons/Sky-news-logo.svg"
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Home = () => {
   const [feedOptions, setFeedOptions] = useState([
     { id: 1, name: "BBC News", selected: true, component: BBCLogo, link: "https://feeds.bbci.co.uk/news/rss.xml"},
     { id: 2, name: "Sky News", selected: false, component: SkyLogo, link: "https://feeds.skynews.com/feeds/rss/home.xml" },
   ]);
 
-  const addPlatformOption = ({platformName, feedLink}) => {
-    const newOption = { id: feedOptions.length + 1, name: platformName, selected: false, component: null, link: feedLink };
+  const [personalRssFeeds, setPersonalRssFeeds] = useState([]);
+
+  const addPlatformOption = ({idNum, platformName, feedLink}) => {
+    const newOption = { id: idNum, name: platformName, selected: false, component: null, link: feedLink };
     setFeedOptions(prevOptions => [...prevOptions, newOption]);
   };
+
+  const getPersonalRssFeeds = async () => {
+    try {
+      const allKeys = await AsyncStorage.getAllKeys(); // Fetch all keys
+      const rssFeedKeys = allKeys.filter((key) => key.startsWith('@rss_feed')); // Filter keys with @rss_feed prefix
   
+      // Retrieve the values for these keys
+      const rssFeeds = await Promise.all(
+        rssFeedKeys.map(async (key) => {
+          const value = await AsyncStorage.getItem(key);
+          return value != null ? JSON.parse(value) : null; // Parse JSON value
+        })
+      );
+  
+      setPersonalRssFeeds(rssFeeds);
+    } 
+    catch (error) {
+      console.error("Error retrieving RSS feeds:", error);
+    }
+  };
+
+
   useFocusEffect(
     React.useCallback(() => {
       //console.log('Tab Screen is focused');
+      getPersonalRssFeeds();
+
+      //FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      personalRssFeeds.forEach(feed => {
+        // Check if the 'name' field of the current feed exists in feedOptions
+        const exists = feedOptions.some(option => option.name === feed.name);
+        
+        // If the feed name doesn't exist in feedOptions, add the feed to feedOptions
+        if (!exists) {
+          const idNum = feedOptions.length + 1;
+          addPlatformOption(idNum, feed.name, feed.link)
+        }
+      });
 
       return () => {
         //console.log('Tab Screen is unfocused');
@@ -44,7 +82,12 @@ const Home = () => {
                   })));
                 }}
               >
-                <IconComponent width={20} height={20} />
+                {IconComponent ? (
+                  <IconComponent width={20} height={20} />
+                ) : (
+                  <View style={{ width: 20, height: 20 }} />
+                )}
+                
                 <Text style={{color: feed.selected ? "#FFA001" : "#CDCDE0"}}>{feed.name}</Text>
               </Pressable>
             );

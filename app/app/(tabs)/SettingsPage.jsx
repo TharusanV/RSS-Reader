@@ -52,7 +52,7 @@ const SettingsPage = () => {
         })
       );
   
-      console.log("RSS Feeds:", rssFeeds);
+      //console.log("RSS Feeds:", rssFeeds);
       setRssFeeds(rssFeeds);
     } 
     catch (error) {
