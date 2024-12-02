@@ -3,6 +3,9 @@ import { View, Button, Text, StyleSheet, ScrollView, Image, Dimensions, Pressabl
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons"; 
 
+import BBCLogo from "./../assets/icons/BBC_News_2019.svg"
+import SkyLogo from "./../assets/icons/Sky-news-logo.svg"
+
 const GetFeed = ({currentFeeds}) => {
 
   const selectedFeed = currentFeeds.find(feed => feed.selected);
@@ -50,18 +53,22 @@ const GetFeed = ({currentFeeds}) => {
     }
   }, [selectedFeed]);
 
+  const bgColour = "#202124";
+  const textColour = "#FFFFFF";
+  const textDescriptionColour = "#9fa2a1";
+
   return (
-      <View style={{ marginTop: 20, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{width: "24", marginBottom: 4}}>
-            <Pressable onPress={fetchRSSFeed}>
+      <View style={{ marginTop: 20, flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: bgColour }}>
+
+          <View style={{position: "absolute",width: "24", marginBottom: 4, zIndex: 15}}>
+            <TouchableOpacity onPress={fetchRSSFeed}>
               <Ionicons
                 name="refresh-outline"
-                color="#161622"
+                color={textColour}
                 size={24}
               />
-            </Pressable>
+            </TouchableOpacity>
           </View>
-
         <View style={{ width: '90%'}}>
           {error ? (
             <Text style={{ marginBottom: 20, color: 'red', textAlign: 'center' }}>
@@ -87,15 +94,18 @@ const GetFeed = ({currentFeeds}) => {
                     />
                   )}
                   
-                  <TouchableOpacity style={{position: 'absolute',top: 5,right:18,}}>
-                    <Text style={{color: 'green',fontSize: 24,fontWeight: 'bold',}}>+</Text>
-                  </TouchableOpacity>
+                  <View style={{marginTop: 2}}>
+                    <TouchableOpacity style={{}}>
+                      <Text style={{color: 'green',fontSize: 14,fontWeight: 'bold',}}>+</Text>
+                    </TouchableOpacity>
+                  </View>
 
-                  <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'left', marginTop: 5}}>
+
+                  <Text style={{ color: textColour, fontSize: 18, fontWeight: 'bold', textAlign: 'left', marginTop: 5}}>
                     {item.title}
                   </Text>
 
-                  <Text style={{ fontSize: 14, color: '#555', textAlign: 'left', marginTop: 3 }}>
+                  <Text style={{ fontSize: 14, color: textDescriptionColour, textAlign: 'left', marginTop: 3 }}>
                     {item.description}
                   </Text>
                 </Pressable>

@@ -27,6 +27,9 @@ const TabIcon = ({icon, color, name, focused}) => {
 }
 
 const TabsLayout = () => {
+
+  const bgColour = "#161622";
+
   return (
     <>
       <Tabs
@@ -38,7 +41,7 @@ const TabsLayout = () => {
           tabBarActiveTintColor: "#FFA001",
           tabBarInactiveTintColor: "#CDCDE0",
           tabBarShowLabel: false,
-          tabBarStyle: { backgroundColor: "#161622",borderTopWidth: 1,borderTopColor: "#232533", zIndex: 10, },
+          tabBarStyle: { backgroundColor: bgColour, borderTopColor: bgColour, zIndex: 10, },
         }}
       >
         <Tabs.Screen 

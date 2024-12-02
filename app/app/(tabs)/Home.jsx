@@ -16,7 +16,9 @@ const Home = () => {
     { id: 2, name: "Sky News", selected: false, component: SkyLogo, link: "https://feeds.skynews.com/feeds/rss/home.xml" },
   ]);
 
-  const [personalRssFeeds, setPersonalRssFeeds] = useState([]);
+  const [personalRssFeeds, setPersonalRssFeeds] = useState([
+
+  ]);
 
   const addPlatformOption = ({idNum, platformName, feedLink}) => {
     const newOption = { id: idNum, name: platformName, selected: false, component: null, link: feedLink };
@@ -25,51 +27,55 @@ const Home = () => {
 
   const getPersonalRssFeeds = async () => {
     try {
-      const allKeys = await AsyncStorage.getAllKeys(); // Fetch all keys
-      const rssFeedKeys = allKeys.filter((key) => key.startsWith('@rss_feed')); // Filter keys with @rss_feed prefix
-  
-      // Retrieve the values for these keys
+      const allKeys = await AsyncStorage.getAllKeys();
+      const rssFeedKeys = allKeys.filter((key) => key.startsWith('@rss_feed'));
+
       const rssFeeds = await Promise.all(
         rssFeedKeys.map(async (key) => {
           const value = await AsyncStorage.getItem(key);
-          return value != null ? JSON.parse(value) : null; // Parse JSON value
+          return value != null ? JSON.parse(value) : null;
         })
       );
-  
-      setPersonalRssFeeds(rssFeeds);
-    } 
-    catch (error) {
+
+      setPersonalRssFeeds(rssFeeds.filter(feed => feed !== null)); // Filter out any null values
+    } catch (error) {
       console.error("Error retrieving RSS feeds:", error);
     }
   };
-
+  
 
   useFocusEffect(
     React.useCallback(() => {
       //console.log('Tab Screen is focused');
-      getPersonalRssFeeds();
+      getPersonalRssFeeds().then(() => {
+        setFeedOptions((currentFeedOptions) => {
+          // Create a map of current feed names for fast lookup
+          const existingNames = new Set(currentFeedOptions.map(option => option.name));
 
-      //FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-      personalRssFeeds.forEach(feed => {
-        // Check if the 'name' field of the current feed exists in feedOptions
-        const exists = feedOptions.some(option => option.name === feed.name);
-        
-        // If the feed name doesn't exist in feedOptions, add the feed to feedOptions
-        if (!exists) {
-          const idNum = feedOptions.length + 1;
-          addPlatformOption(idNum, feed.name, feed.link)
-        }
+          // Loop over personalRssFeeds and add any missing ones
+          personalRssFeeds.forEach((feed, index) => {
+            if (!existingNames.has(feed.name)) {
+              const idNum = currentFeedOptions.length + index + 1; // Generate a unique ID
+              addPlatformOption({ idNum, platformName: feed.name, feedLink: feed.link });
+            }
+          });
+
+          return currentFeedOptions; // Return updated feedOptions for clarity, although React handles this.
+        });
       });
+      
 
       return () => {
         //console.log('Tab Screen is unfocused');
       };
-    }, [])
+    }, [personalRssFeeds]) 
   );
 
+  const bgColour = "#161622";
+
   return (
-    <SafeAreaView style={{ flex: 1}}>
-      <View style={{height: 60, backgroundColor: "#161622",borderTopWidth: 1,borderTopColor: "#232533",}} >
+    <SafeAreaView style={{ flex: 1, backgroundColor: bgColour}}>
+      <View style={{}} >
         <ScrollView horizontal={true}>
           {feedOptions.map((feed) => {
             const IconComponent = feed.component; // Extract the SVG component

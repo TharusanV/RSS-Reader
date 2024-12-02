@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const FavPage = () => {
   return (
-    <SafeAreaView style={{ flex: 1}}>
+    <SafeAreaView style={{ flex: 1,}}>
       <View style={{ marginTop: 10, flex: 1, alignItems: 'center',}} >
         <View style={{ width: '90%'}}>
           <ScrollView 
