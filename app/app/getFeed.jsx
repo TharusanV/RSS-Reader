@@ -60,15 +60,12 @@ const GetFeed = ({currentFeeds}) => {
   return (
       <View style={{ marginTop: 20, flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: bgColour }}>
 
-          <View style={{position: "absolute",width: "24", marginBottom: 4, zIndex: 15}}>
-            <TouchableOpacity onPress={fetchRSSFeed}>
-              <Ionicons
-                name="refresh-outline"
-                color={textColour}
-                size={24}
-              />
-            </TouchableOpacity>
-          </View>
+        <View style={{position: "absolute",width: "24", marginBottom: 4, zIndex: 15}}>
+          <TouchableOpacity onPress={fetchRSSFeed}>
+            <Ionicons name="refresh-outline" color={textColour} size={24}/>
+          </TouchableOpacity>
+        </View>
+
         <View style={{ width: '90%'}}>
           {error ? (
             <Text style={{ marginBottom: 20, color: 'red', textAlign: 'center' }}>

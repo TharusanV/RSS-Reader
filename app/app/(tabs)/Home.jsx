@@ -47,6 +47,7 @@ const Home = () => {
   useFocusEffect(
     React.useCallback(() => {
       //console.log('Tab Screen is focused');
+
       getPersonalRssFeeds().then(() => {
         setFeedOptions((currentFeedOptions) => {
           // Create a map of current feed names for fast lookup

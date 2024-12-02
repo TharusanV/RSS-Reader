@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, TextInput, Button, StyleSheet, Alert} from 'react-native'
+import { View, Text, ScrollView, Pressable, TextInput, Button, StyleSheet, Alert, TouchableOpacity} from 'react-native'
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -39,6 +39,18 @@ const SettingsPage = () => {
     }
   };
 
+  const deleteItemByKey = async (key) => {
+    try {
+      await AsyncStorage.removeItem(`@rss_feed_${key}`); // Remove the item with the given key
+      console.log(`Deleted item with key: ${key}`);
+
+      setRssFeeds((prevFeeds) => prevFeeds.filter((item) => item.name !== key));
+    } catch (error) {
+      console.error(`Error deleting item with key ${key}:`, error);
+    }
+  };
+  
+
   const getRssFeeds = async () => {
     try {
       const allKeys = await AsyncStorage.getAllKeys(); // Fetch all keys
@@ -65,29 +77,31 @@ const SettingsPage = () => {
     getRssFeeds();
   }, []); 
 
-  
+  const bgColour = "#202124";
+  const textColour = "#FFFFFF";
+  const textDescriptionColour = "#9fa2a1";
 
   return (
-    <SafeAreaView style={{ flex: 1}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: bgColour}}>
       <View style={{ marginTop: 10, flex: 1, alignItems: 'center',}} >
         <View style={{ width: '90%'}}>
           <ScrollView 
             showsVerticalScrollIndicator={false} 
             contentContainerStyle={{ }}
           >
-            <Text style={{fontSize: 24,fontWeight: 'bold',}}>Add RSS Feed</Text>
+            <Text style={{fontSize: 24,fontWeight: 'bold',color: textColour,}}>Add RSS Feed</Text>
             <View>
-              <Text style={{}}>Feed Name:</Text>
+              <Text style={{color: textDescriptionColour,}}>Feed Name:</Text>
               <TextInput
-                style={{}}
+                style={{color: textDescriptionColour,}}
                 placeholder="Name"
                 value={addFeedFormData.name}
                 onChangeText={(value) => handleInputChange('name', value)}
               />
 
-              <Text style={{}}>RSS URL:</Text>
+              <Text style={{color: textDescriptionColour,}}>RSS URL:</Text>
               <TextInput
-                style={{}}
+                style={{color: textDescriptionColour,}}
                 placeholder="RSS Link"
                 value={addFeedFormData.link}
                 onChangeText={(value) => handleInputChange('link', value)}
@@ -98,13 +112,13 @@ const SettingsPage = () => {
               </View>
             </View>
 
-            <Text style={{fontSize: 24,fontWeight: 'bold', marginTop: 15}}>Delete RSS Feed</Text>
-            <View>
+            <Text style={{fontSize: 24,fontWeight: 'bold', marginTop: 15, color: textColour,}}>Delete RSS Feed</Text>
+            <View style={{}}>
               {rssFeeds.map((item, name) => (
-                <View key={name}>
-                  <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'left', marginTop: 5}}>
-                    {item.name}
-                  </Text>
+                <View key={name} style={{}}>
+                  <TouchableOpacity onPress={() => deleteItemByKey(item.name)} style={{}}>
+                    <Text style={{color: 'red',fontSize: 18,fontWeight: 'bold', textAlign: 'left', marginTop: 5}}>- {item.name}</Text>
+                  </TouchableOpacity>
                 </View>
               ))}
             </View>
