@@ -10,43 +10,14 @@ import SkyLogo from "../../assets/icons/Sky-news-logo.svg"
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useSharedContext } from './SharedContext';
+
 const Home = () => {
-  const [feedOptions, setFeedOptions] = useState([
-    { id: 1, name: "BBC News", selected: true, component: BBCLogo, link: "https://feeds.bbci.co.uk/news/rss.xml"},
-    { id: 2, name: "Sky News", selected: false, component: SkyLogo, link: "https://feeds.skynews.com/feeds/rss/home.xml" },
-  ]);
 
-  const [personalRssFeeds, setPersonalRssFeeds] = useState([
-
-  ]);
-
-  const addPlatformOption = ({idNum, platformName, feedLink}) => {
-    const newOption = { id: idNum, name: platformName, selected: false, component: null, link: feedLink };
-    setFeedOptions(prevOptions => [...prevOptions, newOption]);
-  };
-
-  const getPersonalRssFeeds = async () => {
-    try {
-      const allKeys = await AsyncStorage.getAllKeys();
-      const rssFeedKeys = allKeys.filter((key) => key.startsWith('@rss_feed'));
-
-      const rssFeeds = await Promise.all(
-        rssFeedKeys.map(async (key) => {
-          const value = await AsyncStorage.getItem(key);
-          return value != null ? JSON.parse(value) : null;
-        })
-      );
-
-      setPersonalRssFeeds(rssFeeds.filter(feed => feed !== null)); // Filter out any null values
-    } catch (error) {
-      console.error("Error retrieving RSS feeds:", error);
-    }
-  };
-  
+  const {personalRssFeeds, setPersonalRssFeeds, favouriteArticle, setFavouriteArticle, feedOptions, setFeedOptions, addPlatformOption, deleteItemByKey, getPersonalRssFeeds, getFavouriteArticles  } = useSharedContext();
 
   useFocusEffect(
     React.useCallback(() => {
-      //console.log('Tab Screen is focused');
 
       getPersonalRssFeeds().then(() => {
         setFeedOptions((currentFeedOptions) => {
@@ -69,7 +40,7 @@ const Home = () => {
       return () => {
         //console.log('Tab Screen is unfocused');
       };
-    }, [personalRssFeeds]) 
+    }, [/*personalRssFeeds*/]) 
   );
 
   const bgColour = "#161622";

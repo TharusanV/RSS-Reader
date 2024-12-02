@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { Redirect, Tabs } from "expo-router";
 import { Image, Text, View, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons"; 
+import { SharedProvider } from './SharedContext';
 
 const TabIcon = ({icon, color, name, focused}) => {
   return (
@@ -31,7 +32,7 @@ const TabsLayout = () => {
   const bgColour = "#161622";
 
   return (
-    <>
+    <SharedProvider>
       <Tabs
         options={{ headerShown: false }}
 
@@ -94,7 +95,7 @@ const TabsLayout = () => {
 
 
       <StatusBar backgroundColor="#161622" style="light" />
-    </>
+    </SharedProvider>
   )
 }
 

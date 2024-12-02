@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, StyleSheet, ScrollView, Image, Dimensions, Pressable, Linking, TouchableOpacity, } from 'react-native';
+import { View, Button, Text, StyleSheet, ScrollView, Image, Dimensions, Pressable, Linking, TouchableOpacity, Alert} from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons"; 
 
 import BBCLogo from "./../assets/icons/BBC_News_2019.svg"
 import SkyLogo from "./../assets/icons/Sky-news-logo.svg"
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GetFeed = ({currentFeeds}) => {
 
@@ -25,6 +27,22 @@ const GetFeed = ({currentFeeds}) => {
       console.error('Error opening URL:', error);
     }
   };
+
+  const handleSubmit = async (objectParam, keyName) => {
+    try {
+      await AsyncStorage.setItem(
+        `@rss_favourites_${keyName}`, //Key
+        JSON.stringify(objectParam) //Value
+      );
+
+      Alert.alert("Favourited successfully!");
+      
+    } 
+    catch (error) {
+      console.error("Error saving data:", error);
+      Alert.alert("Error", "Failed to save Favourites. Please try again.");
+    } 
+  }
   
 
   const fetchRSSFeed = async () => {
@@ -60,7 +78,7 @@ const GetFeed = ({currentFeeds}) => {
   return (
       <View style={{ marginTop: 20, flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: bgColour }}>
 
-        <View style={{position: "absolute",width: "24", marginBottom: 4, zIndex: 15}}>
+        <View style={{position: "absolute",width: "24", marginBottom: 4, zIndex: 15, top: -60, right: 10}}>
           <TouchableOpacity onPress={fetchRSSFeed}>
             <Ionicons name="refresh-outline" color={textColour} size={24}/>
           </TouchableOpacity>
@@ -92,7 +110,7 @@ const GetFeed = ({currentFeeds}) => {
                   )}
                   
                   <View style={{marginTop: 2}}>
-                    <TouchableOpacity style={{}}>
+                    <TouchableOpacity onPress={() => handleSubmit(item,item.title)} style={{}}>
                       <Text style={{color: 'green',fontSize: 14,fontWeight: 'bold',}}>+</Text>
                     </TouchableOpacity>
                   </View>
