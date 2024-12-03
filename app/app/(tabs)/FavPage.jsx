@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useFocusEffect } from '@react-navigation/native';
+
 import { useSharedContext } from './SharedContext';
 
 
@@ -26,9 +28,9 @@ const FavPage = () => {
   const deleteFavouriteByKey = async (keyName) => {
     try {
       await AsyncStorage.removeItem(`@rss_favourites_${keyName}`); // Remove the item with the given key
-      console.log(`Deleted item with key: ${keyName}`);
+      //console.log(`Deleted item with key: ${keyName}`);
 
-      setFavouriteArticle((prevArticles) => prevArticles.filter((item) => item.name !== keyName));
+      setFavouriteArticle((prevArticles) => prevArticles.filter((item) => item.title !== keyName));
     } catch (error) {
       console.error(`Error deleting item with key ${key}:`, error);
     }
@@ -37,6 +39,17 @@ const FavPage = () => {
   useEffect(() => {
     getFavouriteArticles();
   }, []); 
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getFavouriteArticles();
+
+      return () => {
+        /*console.log('Tab Screen is unfocused');*/
+      };
+    }, [/**/]) 
+  );
+
 
   const bgColour = "#202124";
   const textColour = "#FFFFFF";

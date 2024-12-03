@@ -29,7 +29,7 @@ export function SharedProvider({ children }) {
   const deleteItemByKey = async (keyName) => {
     try {
       await AsyncStorage.removeItem(`@rss_feed_${keyName}`); // Remove the item with the given key
-      console.log(`Deleted item with key: ${keyName}`);
+      //console.log(`Deleted item with key: ${keyName}`);
 
       setPersonalRssFeeds((prevFeeds) => prevFeeds.filter((item) => item.name !== keyName));
     } catch (error) {
